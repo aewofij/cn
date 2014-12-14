@@ -1,7 +1,6 @@
 // Data structure for multi-dimensional data.
 define(function() {
 	function KDTree(initialPoints) {
-
 		// construction function
 		var build = function (points, depth) {
 			if (points.length == 0) {
@@ -83,11 +82,22 @@ define(function() {
 				//   if this node is closer than the farthest of the current best...
 				var currentNodeDistance = squaredDistance(currentNode.item.location, to.location);
 				if (best.length < howMany || currentNodeDistance < best[best.length - 1].distance) {
+					/* --- I THINK THE PROBLEM IS IN THIS BLOCK ---*/
+					// All the failing tests hit this block; all the successful tests do not.
+
+					// Something I noticed is that printing `best` here...
+					// console.log(best)
+					// (continued below)
+
 					// Put it in the current best.
 					best.push({ 
 						item: currentNode.item, 
 						distance: currentNodeDistance 
 					});
+
+					// ... and then printing it a second time...
+					// console.log(best)
+					// ... will show that two objects were added to the array, when there should only be one object added.
 
 					// Resort, resize.
 					best.sort(function(a, b) {
